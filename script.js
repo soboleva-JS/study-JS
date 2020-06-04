@@ -1,1 +1,1 @@
-alert ('red')
+alert ('green')
