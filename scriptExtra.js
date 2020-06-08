@@ -1,37 +1,34 @@
 'use strict';
 let weekEn = 'monday,tuesday,wednesday,thursday,friday,saturday,sunday';
 let weekRu ='понедельник,вторник,среда,четверг,пятница,суббота,воскресенье';
-let weekError = 'что-то пошло не так';
 
-let lang = prompt ('Введите \'ru\' или  \'en\'');
-if (lang==='en') {
-  console.log (weekEn);
-}
-else if (lang==='ru') {
+
+let lang = confirm ('Вы говорите по-русски?');
+if (lang===true) {
   console.log (weekRu);
-} else  console.log (weekError);
+}
+else  {
+  console.log (weekEn);
+};
  
 
 switch (lang) {
-  case 'en':
-    console.log (weekEn);
-    break;
-  case 'ru':
+  case true:
     console.log (weekRu);
     break;
-  default:
-    console.log (weekError);
+  case false:
+    console.log (weekEn);
     break;
-}
+};
 
 
-lang = [
+let arr = [
   weekEn.split(','),
   weekRu.split(',')
-]
+];
+let num = lang ? 1 : 0;
+console.log(arr[num]);
 
-console.log(lang[0]);
-console.log(lang[1]);
 
 let namePerson = prompt ('Введите имя');
 let job = (namePerson === 'Артем') ? 'Директор' :
