@@ -1,29 +1,33 @@
 'use strict';
+let weekEn = 'monday,tuesday,wednesday,thursday,friday,saturday,sunday';
+let weekRu ='понедельник,вторник,среда,четверг,пятница,суббота,воскресенье';
+let weekError = 'что-то пошло не так';
 
 let lang = prompt ('Введите \'ru\' или  \'en\'');
 if (lang==='en') {
-  console.log ('monday,tuesday,wednesday,thursday,friday,saturday,sunday');
+  console.log (weekEn);
 }
 else if (lang==='ru') {
-  console.log ('понедельник,вторник,среда,четверг,пятница,суббота,воскресенье');
-} else  console.log ('что-то пошло не так');
+  console.log (weekRu);
+} else  console.log (weekError);
  
 
 switch (lang) {
   case 'en':
-    console.log ('monday,tuesday,wednesday,thursday,friday,saturday,sunday');
+    console.log (weekEn);
     break;
   case 'ru':
-    console.log ('понедельник,вторник,среда,четверг,пятница,суббота,воскресенье');
+    console.log (weekRu);
     break;
   default:
-    console.log ('что-то пошло не так');
+    console.log (weekError);
     break;
 }
 
+
 lang = [
-  ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'],
-  ['понедельник','вторник','среда','четверг','пятница','суббота','воскресенье']
+  weekEn.split(','),
+  weekRu.split(',')
 ]
 
 console.log(lang[0]);
