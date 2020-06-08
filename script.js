@@ -19,20 +19,18 @@ console.log('budgetDay: ', budgetDay);
 
 
 money = prompt('Какой у вас месячный доход?');
-console.log('money: ', money);
 addExpenses = prompt ('Перечислите возможные расходы за рассчитываемый период через запятую');
-console.log('addExpenses: ', addExpenses);
 deposit = confirm('Есть ли у вас депозит в банке');
-console.log('deposit: ', deposit);
+
 
 let expenses1 = prompt('Введите обязательную статью расходов');
 let amount1 = +prompt('Во сколько это обойдется');
 let expenses2 = prompt('Введите обязательную статью расходов');
 let amount2 = +prompt('Во сколько это обойдется');
-let budgetMonth = amount1 + amount2;
+let budgetMonth = money - amount1 - amount2;
 console.log('budgetMonth: ', budgetMonth);
 
-let months=Math.ceil(mission/(money-budgetMonth));
+let months=Math.ceil(mission/budgetMonth);
 console.log('months: ', months);
 
 budgetDay = Math.floor(budgetMonth / 30);
