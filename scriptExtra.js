@@ -1,38 +1,27 @@
 'use strict';
-let weekEn = 'monday,tuesday,wednesday,thursday,friday,saturday,sunday';
-let weekRu ='понедельник,вторник,среда,четверг,пятница,суббота,воскресенье';
+
+let str = prompt ('Введите строку', '012345678901234567890123456789ааа');
+
+function spaceCut (data, callback) {
+  if (typeof data!='string') {
+  alert ('Ошибка ввода, введена не строка, а иной тип данных');
+  } else {
+    let newResult='';
+    let i=0;
+    while (data[i] === ' ') i += 1;
+    let j=data.length;
+    while (data[j-1] === ' ') j -= 1;
+    let result = data.substr(i,j);
+
+    if (result.endsWith === ' ')  {
+      newResult = result[result.length-1] = '';
+    } else newResult = result;
+
+    if (newResult.length>29) {
+      return newResult.substr(0,30) + '...'}
+      else  return newResult
+    };
+  };
 
 
-let lang = confirm ('Вы говорите по-русски?');
-if (lang===true) {
-  console.log (weekRu);
-}
-else  {
-  console.log (weekEn);
-};
- 
-
-switch (lang) {
-  case true:
-    console.log (weekRu);
-    break;
-  case false:
-    console.log (weekEn);
-    break;
-};
-
-
-let arr = [
-  weekEn.split(','),
-  weekRu.split(',')
-];
-let num = lang ? 1 : 0;
-console.log(arr[num]);
-
-
-let namePerson = prompt ('Введите имя');
-let job = (namePerson === 'Артем') ? 'Директор' :
-(namePerson === 'Максим') ? 'Преподаватель' : 'Студент';
-
-
-console.log('job : ', job );
+console.log(spaceCut(str));
