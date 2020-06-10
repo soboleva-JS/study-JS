@@ -1,27 +1,43 @@
 'use strict';
+let arr = [];
+let i = 0;
 
-let str = prompt ('Введите строку', '012345678901234567890123456789ааа');
+function isMultipleNumber (n) {
+  return !isNaN(parseFloat(n)) && isFinite(n) && (n.trim().length>1)  ;
+};
 
-function spaceCut (data, callback) {
-  if (typeof data!='string') {
-  alert ('Ошибка ввода, введена не строка, а иной тип данных');
-  } else {
-    let newResult='';
-    let i=0;
-    while (data[i] === ' ') i += 1;
-    let j=data.length;
-    while (data[j-1] === ' ') j -= 1;
-    let result = data.substr(i,j);
+function getArr () {
+do {
+  do arr [i] = prompt (`Введите многозначное ${i}-е число`,'  22  ');  
+  while (!isMultipleNumber(arr [i] ));
+  i++;
+}
+while (i<8)
+};
 
-    if (result.endsWith === ' ')  {
-      newResult = result[result.length-1] = '';
-    } else newResult = result;
+function twoFourLog () {
+  for (let j = 0; j < arr.length; j ++) {
+    if (arr[j].trim().startsWith('2') || arr[j].trim().startsWith('4')) 
+    console.log(arr[j].trim());
+    }
+};
 
-    if (newResult.length>29) {
-      return newResult.substr(0,30) + '...'}
-      else  return newResult
+getArr ();
+twoFourLog ();
+
+
+let flag;
+function simpleNumbers () {
+  for (let n = 1; n < 99; n ++) {
+    flag = true;    
+    for (let k = 2; k < n; k ++) {
+      if ((n%k)===0) {
+        flag = false;
+        break;
+      };
     };
+    if (flag) console.log(n,`Делители этого числа: 1 и ${n}`)
   };
+};
 
-
-console.log(spaceCut(str));
+simpleNumbers();
