@@ -2,14 +2,21 @@
 let arr = [];
 let i = 0;
 
-function isMultipleNumber (n) {
-  return !isNaN(parseFloat(n)) && isFinite(n) && (n.trim().length>1)  ;
+function isNumber (n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+};
+
+function zeroCut (n) {
+  let i=0;
+  while (n [i] === '0') i++;
+  return n.substr(i);
+  
 };
 
 function getArr () {
 do {
-  do arr [i] = prompt (`Введите многозначное ${i}-е число`,'  22  ');  
-  while (!isMultipleNumber(arr [i] ));
+  do arr [i] = zeroCut(prompt (`Введите многозначное ${i}-е число`,'  000001  ').trim());
+  while (!isNumber(arr [i] )||arr [i].length<2);
   i++;
 }
 while (i<8)
@@ -23,8 +30,8 @@ function twoFourLog () {
 };
 
 getArr ();
+console.log(arr);
 twoFourLog ();
-
 
 let flag;
 function simpleNumbers () {
