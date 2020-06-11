@@ -8,6 +8,10 @@ function isNumber (n) {
   return !isNaN(parseFloat(n)) ;
 };
 
+function bye () {
+  alert('Ждем вас снова!');
+};
+
 function start () {
   function one (n) {
     let i = 0;
@@ -16,6 +20,7 @@ function start () {
       i++;
         let y = prompt ('Угадай число от 1 до 100');
         if (y === null) {
+          bye();
           return;
         } else if (!isNumber(y)) {
           alert('Введите число!');
@@ -24,7 +29,7 @@ function start () {
         else {if (parseFloat(y) == n)  {
               if (confirm('Поздравляем, вы угадали число! Хотите сыграть еще раз?')) return start(); 
               else {
-                alert('Отличная работа! Ждем вас снова!');
+                bye();
                 return;
                 };
               }
@@ -36,7 +41,7 @@ function start () {
             };  
       } else  {if (confirm('Попытки закончились, хотите сыграть еще?')) return start();
             else {
-              alert('Не расстраивайтесь! Попытайте удачу в другой раз!');
+              bye();
               return;
               };
             };    
