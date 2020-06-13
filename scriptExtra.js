@@ -1,10 +1,13 @@
 'use strict';
 
 let arr = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
-console.log(arr.join(', '));
-for (let item of arr) console.log (item);
+
+document.write(`<p>#1</p><p>${arr}</p><p>#2</p>`);
+
+for (let item of arr) document.write(`<p>${item}</p>`);
+
 let str = arr[0] + ', '+arr[arr.length-1];
-console.log(str.italics());
+document.write(`<p>#3</p><p><i>${str}</i></p>`);
 
 let currentDate = new Date();
-console.log(arr[currentDate.getDay()].bold());
+document.write(`<p>#4</p><p><b>${arr[currentDate.getDay()]}</b></p>`);
