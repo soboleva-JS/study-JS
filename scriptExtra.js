@@ -1,31 +1,57 @@
 'use strict';
-let currentDate = new Date(),
-    arrDay = ['Воскресенье','Понедельник', 'Вторник' , 'Среда', 'Четверг', 'Пятница', 'Суббота'],
-    arrMonth = ['Января','Февраля', 'Марта' , 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
+let arrDay = ['Воскресенье','Понедельник', 'Вторник' , 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+    arrMonth = ['января','февраля', 'марта' , 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
-Date.prototype.format = function(format = 'yyyy-mm-dd') {
-  const obj = {
-      yyyy: this.getFullYear(),
-      day: arrDay[this.getDay()],
-      mm: ('0'+(this.getMonth() + 1)).slice(-2),
-      m: arrMonth[this.getMonth() + 1],
-      dd: ('0'+this.getDate()).slice(-2),
-      hh: ('0'+this.getHours()).slice(-2),
-      MM: ('0'+this.getMinutes()).slice(-2),
-      ss: ('0'+this.getSeconds()).slice(-2)
-  };
-  let result = format;
-  for(const i in obj) {
-      result = result.replace(i,obj[i]);
-      }
-  return result;
+
+let getDateLong = function (currentDate=new Date()) {
+  let yyyy,
+      day,
+      mm,
+      m,
+      dd,
+      hh,
+      MM,
+      ss,
+      str,
+      arrHour = ['час', 'часа', 'часов'],
+      hour;
+  yyyy =currentDate.getFullYear();
+  day = arrDay[currentDate.getDay()];
+  mm = (''+(currentDate.getMonth() + 1)).slice(-2);
+  m = arrMonth[currentDate.getMonth()];
+  dd = (''+currentDate.getDate()).slice(-2);
+  hh = (''+currentDate.getHours()).slice(-2);
+  MM = (''+currentDate.getMinutes()).slice(-2);
+  ss = (''+currentDate.getSeconds()).slice(-2);
+
+  if (hh.toString().endsWith('1')) hour = arrHour[0]
+    else if ((parseInt(hh.toString().slice(-1)) > 1)&&(parseInt(hh.toString().slice(-1)) < 5)) hour = arrHour[1]
+    else hour = arrHour[2];
+  str = `Сегодня ${day}, ${dd} ${m} ${yyyy} года, ${hh} ${hour}, ${MM} минут, ${ss} секунды`;
+  document.write(str,'<br>');
 };
-      
-let getDate = function () { 
-console.log(currentDate.format('dd.mm.yyyy - hh:MM:ss'));
-if (currentDate.getHours().toString().endsWith('1')) console.log((new Date()).format('Сегодня day, dd m yyyy года,  hh час MM минут ss секунды'))
-  else if ((parseInt(currentDate.getHours().toString().slice(-1)) > 1)&&(parseInt(currentDate.getHours().toString().slice(-1)) < 5)) console.log((new Date()).format('Сегодня day, dd m yyyy года,  hh часа MM минут ss секунды'))
-  else console.log((new Date()).format('Сегодня day, dd m yyyy года,  hh часов MM минут ss секунды'));
+let getDateShort = function (currentDate=new Date()) {
+  let yyyy,
+      day,
+      mm,
+      m,
+      dd,
+      hh,
+      MM,
+      ss,
+      str;
+  yyyy =currentDate.getFullYear();
+  day = arrDay[currentDate.getDay()];
+  mm = ('0'+(currentDate.getMonth() + 1)).slice(-2);
+  m = arrMonth[currentDate.getMonth() + 1];
+  dd = ('0'+currentDate.getDate()).slice(-2);
+  hh = ('0'+currentDate.getHours()).slice(-2);
+  MM = ('0'+currentDate.getMinutes()).slice(-2);
+  ss = ('0'+currentDate.getSeconds()).slice(-2);
+
+  str = dd+'.'+mm+'.'+yyyy+ ' - '+ hh+'.'+MM+'.'+ss;
+  document.write(str,'<br>');
 };
 
-setInterval(getDate , 1000);
+setInterval(getDateLong, 1000);
+setInterval(getDateShort, 1000);
