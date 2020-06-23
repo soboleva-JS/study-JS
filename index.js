@@ -55,12 +55,10 @@ let salaryAmount = document.querySelector('.salary-amount'),
       document.querySelectorAll('input[type=text]').forEach(function (item){
       item.disabled=true;
       });
-      periodSelect.disabled=true;
       start.setAttribute("style", "display: none");
       cancel.setAttribute("style", "display: inline-block");
     },
     reset: function () {     
-      periodSelect.removeAttribute('disabled');
       periodSelect.value=1;
       periodAmount.textContent=periodSelect.value;
       document.querySelectorAll('input[type=text]').forEach(function (item){
