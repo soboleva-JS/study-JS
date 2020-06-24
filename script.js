@@ -43,29 +43,22 @@ DivDomElement.prototype.constructor=DivDomElement;
 let div_1 = new DivDomElement ('.block', '100px', '100px', 'red', '30px','200px','200px');
 div_1.DomElementShow('lala');
 
-document.onkeydown = function(e) {
-  let x=document.querySelector('div').style.left;
-  let y=document.querySelector('div').style.top;
+document.onkeydown = function(e) {  
+  let el=document.querySelector('div');
+  let x=el.style.left;
+  let y=el.style.top;
   switch (e.key) {  
   case "ArrowLeft":
-    document.querySelector('div').remove();
-    div_1 = new DivDomElement ('.block', '100px', '100px', 'red', '30px',`${parseInt(x)-10}px`,y);
-    div_1.DomElementShow('lala');
+    el.style.left=(parseInt(x)-10)+'px';
     break;
   case "ArrowRight":
-    document.querySelector('div').remove();
-    div_1 = new DivDomElement ('.block', '100px', '100px', 'red', '30px',`${parseInt(x)+10}px`,y);
-    div_1.DomElementShow('lala');
+    el.style.left=(parseInt(x)+10)+'px';
     break;
   case "ArrowUp":
-    document.querySelector('div').remove();
-    div_1 = new DivDomElement ('.block', '100px', '100px', 'red', '30px',x,`${parseInt(y)-10}px`);
-    div_1.DomElementShow('lala');
+    el.style.top=(parseInt(y)-10)+'px';
     break;
   case "ArrowDown":
-    document.querySelector('div').remove();
-    div_1 = new DivDomElement ('.block', '100px', '100px', 'red', '30px',x,`${parseInt(y)+10}px`);
-    div_1.DomElementShow('lala');
+    el.style.top=(parseInt(y)+10)+'px';
     break;
 };
 };
