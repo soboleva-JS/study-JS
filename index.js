@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //универсальный метод добавления строк для доходов и расходов
     addBlock(btnClass, itemsClass) {
       const btn = document.querySelector(`.${btnClass}`);
-      const items = document.querySelectorAll(`.${itemsClass}`);
+      let items = document.querySelectorAll(`.${itemsClass}`);
       const cloneIncomeItem = items[0].cloneNode(true);
       items[0].parentNode.insertBefore(cloneIncomeItem, btn);
       items = document.querySelectorAll(`.${itemsClass}`);
