@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style type="text/css">
+    body {
+      background-color: black;
+    }
+    .pic {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <button class="start">Запустить/Остановить</button>
+  <button class="reset">Сброс</button>
+  <div class="pic"><img src="img.png" alt=""></div>
+</body>
+<script>
+"use strict";
+const pic=document.querySelector('.pic');
+let flyInterval,
+    count=0;
+let flyAnimate = function () {
+  flyInterval = requestAnimationFrame(flyAnimate);
+  count++;
+  if (count<750) {
+    pic.style.top=count+'px';
+    pic.style.left=count*2+'px';
+  } else {
+    cancelAnimationFrame(flyInterval);
+  }
+};
+let animate=true;
+const startBtn=document.querySelector('.start'),
+      resetBtn=document.querySelector('.reset');
+startBtn.addEventListener('click', function() {
+  if (animate) {
+    flyInterval = requestAnimationFrame(flyAnimate);
+    animate=false;
+  } else {
+    animate=true;
+    cancelAnimationFrame(flyInterval);
+  }
+});
+resetBtn.addEventListener('click', function() {  
+  cancelAnimationFrame(flyInterval);
+    animate=true;
+    pic.style.top=0+'px';
+    pic.style.left=0+'px';
+    count=0;
+});
+</script>
+</html>
