@@ -119,7 +119,7 @@ body ul {
   line-height: 3
 }
 
-body li a {
+body a  {
   font-size: 2rem;
   color: #fff
 }
@@ -795,8 +795,6 @@ footer .web {
   width: 40rem;
   left: 38%;
   top: 10%;
-  -webkit-transform: translateX(-50px);
-  transform: translateX(-50px);
   padding: 2rem 6rem;
   background-color: #24241f
 }

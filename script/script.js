@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded', function() {
   'use strict';
+ 
 const countTimer = (deadline) => {
   const timerHours = document.querySelector('#timer-hours'),
         timerMinutes = document.querySelector('#timer-minutes'),
@@ -36,6 +37,12 @@ const toggleMenu = () =>{
         menu = document.querySelector('menu'),
         closeBtn = document.querySelector('.close-btn'),
         menuItems = menu.querySelectorAll('ul>li');
+
+menuItems.forEach((item) => {
+  item.style.fontSize= '2rem';
+  item.style.color = '#fff';
+  item.querySelector('a').removeAttribute('href')}); 
+
   const handlerMenu = () =>{
           if (!menu.style.transform||menu.style.transform === `translate(-100%)`){
             menu.style.transform = `translate(0)`;
@@ -45,6 +52,19 @@ const toggleMenu = () =>{
   btnMenu.addEventListener('click', handlerMenu);
   closeBtn.addEventListener('click', handlerMenu);
   menuItems.forEach( item=> item.addEventListener('click',handlerMenu));
+  
+  const scroll = (name) => {
+    document.getElementById(name).scrollIntoView({behavior: 'smooth' });
+  };
+
+  menuItems[0].addEventListener('click',()=>scroll('service-block'));
+  menuItems[1].addEventListener('click',()=>scroll('portfolio'));
+  menuItems[2].addEventListener('click',()=>scroll('calc'));
+  menuItems[3].addEventListener('click',()=>scroll('command'));
+  menuItems[4].addEventListener('click',()=>scroll('connect'));
+
+  document.querySelector('main>a').removeAttribute('href');
+  document.querySelector('main>a').addEventListener('click',()=>scroll('service-block'));
 
 };
 toggleMenu();
@@ -78,3 +98,4 @@ popupClose.addEventListener('click',()=>popup.style.display='none');
 }
 togglePopup();
 });
+
