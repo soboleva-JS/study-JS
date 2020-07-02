@@ -68,7 +68,6 @@ window.addEventListener('DOMContentLoaded', function () {
       item.addEventListener('click', scroll)
     });
     const arrowDown = document.querySelector('main>a');
-    console.log('arrowDown: ', arrowDown);
     arrowDown.addEventListener('click', scroll);
   };
   toggleMenu();
