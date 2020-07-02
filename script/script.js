@@ -37,11 +37,8 @@ window.addEventListener('DOMContentLoaded', function () {
   countTimer('3 July 2020');
 
   const toggleMenu = () => {
-    const btnMenu = document.querySelector('.menu'),
-      menu = document.querySelector('menu'),
-      closeBtn = document.querySelector('.close-btn'),
-      menuItems = menu.querySelectorAll('ul>li');
-
+    const menu = document.querySelector('menu'),
+      main = document.querySelector('main');
     const handlerMenu = () => {
       if (!menu.style.transform || menu.style.transform === `translate(-100%)`) {
         menu.style.transform = `translate(0)`;
@@ -49,13 +46,8 @@ window.addEventListener('DOMContentLoaded', function () {
         menu.style.transform = `translate(-100%)`;
       }
     };
-    btnMenu.addEventListener('click', handlerMenu);
-    closeBtn.addEventListener('click', handlerMenu);
-    menuItems.forEach(item => item.addEventListener('click', handlerMenu));
-
-    const scroll = function () {
+    const scroll = function (event) {
       event.preventDefault();
-      console.log('event: ', event.target);
       if (event.target.getAttribute('href')) document.getElementById(event.target.getAttribute('href').slice(1)).scrollIntoView({
         behavior: 'smooth'
       })
@@ -63,21 +55,24 @@ window.addEventListener('DOMContentLoaded', function () {
         behavior: 'smooth'
       })
     };
-
-    menuItems.forEach((item) => {
-      item.addEventListener('click', scroll)
+    main.addEventListener('click', (event) => {
+      if (event.target.closest('a')) scroll(event)
+      else if (event.target.closest('.menu')) handlerMenu()
+    })
+    menu.addEventListener('click', (event) => {
+      if (event.target.classList.contains('close-btn') || event.target.classList.contains('menu')) handlerMenu()
+      else if (event.target.tagName == 'A') {
+        handlerMenu();
+        scroll(event)
+      };
     });
-    const arrowDown = document.querySelector('main>a');
-    console.log('arrowDown: ', arrowDown);
-    arrowDown.addEventListener('click', scroll);
   };
   toggleMenu();
 
   const togglePopup = () => {
     const popup = document.querySelector('.popup'),
       popupContent = document.querySelector('.popup-content'),
-      popupBtn = document.querySelectorAll('.popup-btn'),
-      popupClose = document.querySelector('.popup-close');
+      popupBtn = document.querySelectorAll('.popup-btn');
 
     const modalAnimate = () => {
       popup.style.display = 'block';
@@ -99,9 +94,42 @@ window.addEventListener('DOMContentLoaded', function () {
       else
         popup.style.display = 'block';
     }));
-    popupClose.addEventListener('click', () => popup.style.display = 'none');
+    popup.addEventListener('click', (event) => {
+      if (event.target.classList.contains('popup-close')) popup.style.display = 'none'
+      else if (!event.target.closest('.popup-content')) popup.style.display = 'none'
+    });
   }
   togglePopup();
 
+  const tubs = () => {
+    const tabHeader = document.querySelector('.service-header'),
+      tab = tabHeader.querySelectorAll('.service-header-tab'),
+      tabContent = document.querySelectorAll('.service-tab');
+
+    const toggleTabContent = (index) => {
+      for (let i = 0; i < tabContent.length; i++) {
+        if (index === i) {
+          tab[i].classList.add('active');
+          tabContent[i].classList.remove('d-none');
+        } else {
+          tab[i].classList.remove('active');
+          tabContent[i].classList.add('d-none');
+        }
+      }
+    };
+    tabHeader.addEventListener('click', (event) => {
+      let target = event.target.closest('.service-header-tab');
+      while (target !== tabHeader) {
+        if (target) {
+          tab.forEach((item, i) => {
+            if (item === target) toggleTabContent(i)
+          });
+          return;
+        }
+        target = target.parentNode;
+      }
+    });
+  };
+  tubs();
 
 });
