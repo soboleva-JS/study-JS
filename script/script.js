@@ -55,17 +55,15 @@ window.addEventListener('DOMContentLoaded', function () {
         behavior: 'smooth'
       })
     };
-    main.addEventListener('click', (event) => {
-      if (event.target.closest('a')) scroll(event)
-      else if (event.target.closest('.menu')) handlerMenu()
-    })
-    menu.addEventListener('click', (event) => {
-      if (event.target.classList.contains('close-btn') || event.target.classList.contains('menu')) handlerMenu()
-      else if (event.target.tagName == 'A') {
-        handlerMenu();
+    document.body.addEventListener('click', (event) =>{
+      if (event.target.classList.contains('close-btn') || event.target.classList.contains('menu')||event.target.closest('.menu')) handlerMenu()
+      else if (event.target.tagName == 'A'&&event.target.closest('menu')) {
+        handlerMenu(); 
         scroll(event)
-      };
-    });
+      } else if (event.target.closest('a')&&event.target.closest('main')) scroll(event)
+      else if ((menu.style.transform = `translate(0)`)&&!event.target.closest('menu')) handlerMenu()
+
+    } )
   };
   toggleMenu();
 
