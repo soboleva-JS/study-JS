@@ -55,7 +55,6 @@ class Todo {
   }
 
   deleteItem() {
-    console.log(' this.todoData: ',  this.todoData);
     this.todoData.forEach((item) => {
       if (item.key === event.target.closest('li').key)  this.todoData.delete(item.key);      
     })
