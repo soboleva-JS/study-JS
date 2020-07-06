@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', function () {
   'use strict';
-
+  // таймер
   const countTimer = (deadline) => {
     const timerHours = document.querySelector('#timer-hours'),
       timerMinutes = document.querySelector('#timer-minutes'),
@@ -34,8 +34,9 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     setInterval(updateClock, 1000);
   }
-  countTimer('3 July 2020');
-
+  countTimer('10 July 2020');
+  
+// открытие, закрытие, переход по меню
   const toggleMenu = () => {
     const menu = document.querySelector('menu'),
       main = document.querySelector('main');
@@ -67,6 +68,7 @@ window.addEventListener('DOMContentLoaded', function () {
   };
   toggleMenu();
 
+  //  модальное окно
   const togglePopup = () => {
     const popup = document.querySelector('.popup'),
       popupContent = document.querySelector('.popup-content'),
@@ -99,6 +101,7 @@ window.addEventListener('DOMContentLoaded', function () {
   }
   togglePopup();
 
+  // табы
   const tubs = () => {
     const tabHeader = document.querySelector('.service-header'),
       tab = tabHeader.querySelectorAll('.service-header-tab'),
@@ -130,6 +133,7 @@ window.addEventListener('DOMContentLoaded', function () {
   };
   tubs();
 
+  // слайдер
   const slider = () => {
     const slide = document.querySelectorAll('.portfolio-item'),
       slider = document.querySelector('.portfolio-content');
@@ -173,7 +177,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const stopSlide = (time) => {
       clearInterval(interval);
-
     };
 
     slider.addEventListener('click', (event) => {
@@ -196,7 +199,6 @@ window.addEventListener('DOMContentLoaded', function () {
       nextSlide(slide, currentSlide, 'portfolio-item-active');
       nextSlide(dot, currentSlide, 'dot-active');
 
-
     });
     slider.addEventListener('mouseover', event => {
       if (event.target.matches('.portfolio-btn, .dot')) stopSlide();
@@ -208,6 +210,24 @@ window.addEventListener('DOMContentLoaded', function () {
 
     startSlide(1500);
   };
-
   slider();
-});
+// смена картинок команды
+  const togglePicture = () => {
+    if (event.target.tagName !== 'IMG') return;
+    const changeImg = event.target.dataset.img;
+    if (changeImg) {
+      event.target.dataset.img = event.target.src;
+      event.target.src = changeImg;
+    }
+  }
+  const command = document.getElementById('command');
+  command.addEventListener('mouseover', togglePicture);
+  command.addEventListener('mouseout', togglePicture);
+
+// ввод только цифр в инпуты
+  const calculator = document.getElementById('calc');
+  const inputs = calculator.querySelectorAll('input');
+  inputs.forEach((item) => {
+    item.addEventListener('input', ()=> item.value = item.value.replace(/\D/g, ''));
+    })
+ });
