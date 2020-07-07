@@ -232,7 +232,6 @@ window.addEventListener('DOMContentLoaded', function () {
   })
 
   // калькулятор
-
   const calc = (price = 100) => {
     const calcBlock = document.querySelector('.calc-block'),
       calcType = document.querySelector('.calc-type'),
@@ -242,14 +241,16 @@ window.addEventListener('DOMContentLoaded', function () {
       totalValue = document.getElementById('total');
 
     const countSum = () => {
+
       let begin = 0;
       const animate = () => {
         if (begin < total) {
-          begin += total/100;
-          totalValue.textContent = begin;
-          setInterval(animate, 10);
-        }
+          begin += Math.floor(total / 20);
+         totalValue.textContent = begin;
+          setTimeout(animate, 10);
+        } else totalValue.textContent = Math.floor(total, 1);
       }
+
       let total = 0,
         countValue = 1,
         dayValue = 1;
@@ -266,9 +267,7 @@ window.addEventListener('DOMContentLoaded', function () {
       if (typeValue && squareValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
-      totalValue.textContent = animate();
-      totalValue.textContent = Math.floor(total);
-
+      animate();
     }
 
     calcBlock.addEventListener('change', (event) => {
