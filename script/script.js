@@ -242,15 +242,7 @@ window.addEventListener('DOMContentLoaded', function () {
       totalValue = document.getElementById('total');
 
     const countSum = () => {
-      let begin = 0;
-      const animate = () => {
-        if (begin < total) {
-          begin++;
-          totalValue.textContent = begin;
-          setInterval(animate, 10);
-        }
-      }
-      let total = 0,
+        let total = 0,
         countValue = 1,
         dayValue = 1;
       const typeValue = calcType.options[calcType.selectedIndex].value,
@@ -266,7 +258,7 @@ window.addEventListener('DOMContentLoaded', function () {
       if (typeValue && squareValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
-      totalValue.textContent = animate();
+      totalValue.textContent = total;
     }
 
     calcBlock.addEventListener('change', (event) => {
