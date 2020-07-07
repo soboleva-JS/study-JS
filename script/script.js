@@ -245,7 +245,7 @@ window.addEventListener('DOMContentLoaded', function () {
       let begin = 0;
       const animate = () => {
         if (begin < total) {
-          begin++;
+          begin += total/100;
           totalValue.textContent = begin;
           setInterval(animate, 10);
         }
@@ -267,6 +267,8 @@ window.addEventListener('DOMContentLoaded', function () {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
       totalValue.textContent = animate();
+      totalValue.textContent = Math.floor(total);
+
     }
 
     calcBlock.addEventListener('change', (event) => {
