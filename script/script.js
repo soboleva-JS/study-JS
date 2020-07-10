@@ -292,12 +292,10 @@ window.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       form.appendChild(statusMessage);
-      console.log('form: ', form);
       statusMessage.textContent = loadMessage;
       const formData = new FormData(form);
       let body = {};
       formData.forEach((val, key) => body[key] = val)
-      console.log(' body: ', body);
 
       postData(body, () => {
         statusMessage.textContent = successMessage;
