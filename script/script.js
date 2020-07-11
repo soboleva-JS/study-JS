@@ -281,27 +281,29 @@ window.addEventListener('DOMContentLoaded', function () {
   // send-ajax-form
   const sendForm = (form) => {
     const errorMessage = 'Что-то пошло не так',
-      loadMessage = 'Загрузка..',
       successMessage = 'Спасибо! Мы скоро с вами свяжемся';
-    
+
     const statusMessage = document.createElement('div');
-    statusMessage.textContent = 'Тут будет сообщение';
     statusMessage.style.fontSize = '2rem';
     statusMessage.style.color = '#ffffff';
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
+      statusMessage.innerHTML = `
+      <div class="sk-flow">
+			<div class="sk-flow-dot"></div>
+			<div class="sk-flow-dot"></div>
+			<div class="sk-flow-dot"></div>
+    </div>
+    `
       form.appendChild(statusMessage);
-      console.log('form: ', form);
-      statusMessage.textContent = loadMessage;
       const formData = new FormData(form);
       let body = {};
       formData.forEach((val, key) => body[key] = val)
-      console.log(' body: ', body);
 
       postData(body, () => {
         statusMessage.textContent = successMessage;
-        form.querySelectorAll('input').forEach((item) => item.value="");
+        form.reset();
       }, (error) => {
         statusMessage.textContent = errorMessage;
       });
@@ -328,13 +330,58 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
   // валидация форм
-  const forms=document.querySelectorAll('form');
+
+  const maskPhone = (selector, masked = '+7 (___) ___-__-__') => {
+    const elems = document.querySelectorAll(selector);
+
+    function mask(event) {
+      const keyCode = event.keyCode;
+      const template = masked,
+        def = template.replace(/\D/g, ""),
+        val = this.value.replace(/\D/g, "");
+      let i = 0,
+        newValue = template.replace(/[_\d]/g, function (a) {
+          return i < val.length ? val.charAt(i++) || def.charAt(i) : a;
+        });
+      i = newValue.indexOf("_");
+      if (i != -1) {
+        newValue = newValue.slice(0, i);
+      }
+      let reg = template.substr(0, this.value.length).replace(/_+/g,
+        function (a) {
+          return "\\d{1," + a.length + "}";
+        }).replace(/[+()]/g, "\\$&");
+      reg = new RegExp("^" + reg + "$");
+      if (!reg.test(this.value) || this.value.length < 5 || keyCode > 47 && keyCode < 58) {
+        this.value = newValue;
+      }
+      if (event.type == "blur" && this.value.length < 5) {
+        this.value = "";
+      }
+    }
+
+    for (const elem of elems) {
+      elem.addEventListener("input", mask);
+      elem.addEventListener("focus", mask);
+      elem.addEventListener("blur", mask);
+    }
+  }
+
+  const cyrillic = (selector) => {
+    const elem = document.querySelector(selector);
+    const change = () => {
+      elem.value = elem.value.replace(/[^А-Яа-яЁё ]$/g, '');
+    }
+    elem.addEventListener("input", change);
+    elem.addEventListener("focus", change);
+    elem.addEventListener("blur", change);
+  }
+
+  const forms = document.querySelectorAll('form');
   forms.forEach((form) => {
- if (form.querySelector(`#${form.id}-name`))  form.querySelector(`#${form.id}-name`).addEventListener('input', (event) => event.target.value = event.target.value.replace(/[^А-Яа-яЁё ]$/g, ''));
- if (form.querySelector(`#${form.id}-phone`)) form.querySelector(`#${form.id}-phone`).addEventListener('input', (item) => event.target.value = event.target.value.replace(/[^\+][\D]$/ig, ''));
- if (form.querySelector(`#${form.id}-message`)) form.querySelector(`#${form.id}-message`).addEventListener('input', (item) => event.target.value = event.target.value.replace(/[^А-Яа-яЁё ]$/g, ''));
+    if (form.querySelector(`#${form.id}-name`)) cyrillic(`#${form.id}-name`);
+    if (form.querySelector(`#${form.id}-message`)) cyrillic(`#${form.id}-message`);
+    if (form.querySelector(`#${form.id}-phone`)) maskPhone(`#${form.id}-phone`);
   });
-
-
 
 });
