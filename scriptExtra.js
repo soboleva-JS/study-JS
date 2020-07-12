@@ -5,6 +5,13 @@ let arrDay = ['Воскресенье','Понедельник', 'Вторник
     if (n<10) return '0'+n; 
     else return n;
     },
+    getHoursForm = function (n) {
+      const arrHour = ['час', 'часа', 'часов'];
+      if (n === 1) return arrHour[0]
+        else if ((n > 1)&&(n < 5)) return arrHour[1]
+        else return arrHour[2];
+
+    },
     getDateLong = function (currentDate=new Date()) {
       let yyyy,
           day,
@@ -14,9 +21,7 @@ let arrDay = ['Воскресенье','Понедельник', 'Вторник
           hh,
           MM,
           ss,
-          str,
-          arrHour = ['час', 'часа', 'часов'],
-          hour;
+          str;
       yyyy =currentDate.getFullYear();
       day = arrDay[currentDate.getDay()];
       m = arrMonth[currentDate.getMonth()];
@@ -25,10 +30,7 @@ let arrDay = ['Воскресенье','Понедельник', 'Вторник
       MM = (currentDate.getMinutes());
       ss = (currentDate.getSeconds());
 
-      if (hh.toString().endsWith('1')) hour = arrHour[0]
-        else if ((parseInt(hh.toString().slice(-1)) > 1)&&(parseInt(hh.toString().slice(-1)) < 5)) hour = arrHour[1]
-        else hour = arrHour[2];
-      str = `Сегодня ${day}, ${dd} ${m} ${yyyy} года, ${hh} ${hour}, ${MM} минут, ${ss} секунды`;
+      str = `Сегодня ${day}, ${dd} ${m} ${yyyy} года, ${hh} ${getHoursForm(parseInt(hh.toString().slice(-1)))}, ${MM} минут, ${ss} секунды`;
       document.body.innerHTML = '';
       document.write(str,'<br>');
     },
