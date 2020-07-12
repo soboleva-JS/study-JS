@@ -58,10 +58,10 @@ let salaryAmount = document.querySelector('.salary-amount'),
       appData.showResult();
       },
      inputTextCheck: function (item){
-     item.addEventListener('input', () => item.value = item.value.replace(/[^а-я ]/,''));
+     item.addEventListener('input', () => item.value = item.value.replace(/[^а-я\s,\.\?!;:,]/ig,''));
       },    
      inputFigureCheck: function (item){       
-      item.addEventListener('input', () => item.value = item.value.replace(/[^0-9]/, ''));
+      item.addEventListener('input', () => item.value = item.value.replace(/[^0-9]/g, ''));
       },   
     expensesBlock: function () {
       let cloneExpensesItem = expensesItems[0].cloneNode(true);
@@ -184,7 +184,7 @@ start.addEventListener('click', appData.start);
 expensesPlus.addEventListener('click', appData.expensesBlock);
 incomePlus.addEventListener('click', appData.incomeBlock);
 periodSelect.addEventListener('input', appData.showPeriodRange);
-additionalExpensesItem.addEventListener('input', () => additionalExpensesItem.value = additionalExpensesItem.value.replace(/[^а-я,]/,''));
+additionalExpensesItem.addEventListener('input', () => additionalExpensesItem.value = additionalExpensesItem.value.replace(/[^а-я\s,\.\?!;:,]/ig,''));
 const textItems=( document.querySelectorAll('input[placeholder="Наименование"]'));
 for (let item of textItems) {
   appData.inputTextCheck (item);
