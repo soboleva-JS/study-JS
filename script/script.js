@@ -282,6 +282,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
       const sendForm = (form) => {
         const errorMessage = 'Что-то пошло не так';
+        const successMessage = 'Спасибо! Мы скоро с вами свяжемся';
          
 
         const statusMessage = document.createElement('div');
@@ -309,11 +310,10 @@ window.addEventListener('DOMContentLoaded', function () {
               request.addEventListener('readystatechange', () => {
                 if (request.readyState !== 4) return;
                 if (request.status === 200) {
-                  form.reset();
-                  const successMessage = 'Спасибо! Мы скоро с вами свяжемся';
-                  resolve(successMessage);                  
+                  form.reset();                  
+                  resolve();                  
                 } else {
-                  reject(errorMessage);
+                  reject(request.statusText);
                 };
               })
               request.open('POST', './server.php');
@@ -324,8 +324,12 @@ window.addEventListener('DOMContentLoaded', function () {
           }
 
           postData(body)
-            .then ( (successMessage) => statusMessage.textContent = successMessage,
-            (errorMessage) => statusMessage.textContent = errorMessage)
+            .then ( () => statusMessage.textContent = successMessage)
+            .catch ( (error) =>{
+              statusMessage.textContent = errorMessage;
+              console.log(error)
+            } )
+
         })
         }
         sendForm(document.getElementById('form1'));
