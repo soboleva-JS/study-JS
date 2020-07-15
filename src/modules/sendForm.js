@@ -9,7 +9,7 @@ const sendForm = (form) => {
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        statusMessage.innerHTML = `
+        statusMessage.innerHTML = `Загрузка...
           <div class="sk-flow">
           <div class="sk-flow-dot"></div>
           <div class="sk-flow-dot"></div>

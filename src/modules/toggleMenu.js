@@ -1,11 +1,14 @@
 const toggleMenu = () => {
     const menu = document.querySelector('menu'),
       main = document.querySelector('main');
+      const closeBtn = document.querySelector('.close-btn');
     const handlerMenu = () => {
       if (!menu.style.transform || menu.style.transform === `translate(-100%)`) {
         menu.style.transform = `translate(0)`;
+        closeBtn.style.display = 'block';
       } else {
         menu.style.transform = `translate(-100%)`;
+        closeBtn.style.display = 'none';
       }
     };
     const scroll = function (event) {

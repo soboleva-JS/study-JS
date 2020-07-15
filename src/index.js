@@ -1,7 +1,7 @@
     'use strict';
     import '@babel/polyfill';
     import 'nodelist-foreach-polyfill';
-    import 'fetch-polyfill';
+    import 'fetch-ie8';
     import 'es6-promise';
     import 'formdata-polyfill';
     import 'dom-node-polyfills';
@@ -17,6 +17,11 @@
     import sendForm from './modules/sendForm';
     import cyrillicInput from './modules/cyrillicInput';
     import maskPhone from './modules/maskPhone';
+
+    const closeBtn = document.querySelector('.close-btn');
+    closeBtn.style.display = 'none';
+
+
 
     // таймер
     countTimer('18 July 2020');
