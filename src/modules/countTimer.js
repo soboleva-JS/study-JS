@@ -46,6 +46,7 @@
            spanTimers[3].textContent=':';
          }
        }
+       updateClock();
        setInterval(updateClock, 1000);
      };
 
