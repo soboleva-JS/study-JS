@@ -234,5 +234,6 @@ getReadyJson(data => {
             listDefault.style.display = 'block';
 
         }
+        if (event.target.closest('.button')) input.value = '';
     })
 });
