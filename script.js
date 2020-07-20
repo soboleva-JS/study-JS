@@ -2,7 +2,6 @@
 let selectStatus = document.getElementById('select-status');
 let selectMovie = document.getElementById('select-movie');
 
-let arr;
 const getReadyJson = cb => {
   const request = new XMLHttpRequest();
   request.open('GET', './dbHeroes.json');
@@ -21,7 +20,7 @@ const protection = (fields, obj) => Object.keys(obj)
   .reduce((newObj, key) => {
     newObj[key] = obj[key]
     return newObj;
-  }, {}) 
+  }, {})
 
 
 const tvShowsList = document.querySelector('.tv-shows__list');
@@ -56,14 +55,14 @@ const renderCard = response => {
     const card = document.createElement('div');
     const keys = Object.keys(item);
 
-      card.innerHTML = `<img class="tv-card__img"
+    card.innerHTML = `<img class="tv-card__img"
       src="${item['photo']}"
       alt="${item['name']}">`;
-      
 
-      card.querySelector('img').onerror = ()=> {
-        card.querySelector('img').src ='dbimage/noPhotoAvailable.jpg'
-      };
+
+    card.querySelector('img').onerror = () => {
+      card.querySelector('img').src = 'dbimage/noPhotoAvailable.jpg'
+    };
 
     keys.forEach((key) => {
       if (key == 'movies') {
@@ -93,52 +92,40 @@ const renderCard = response => {
     tvShowsList.append(card);
 
   });
-  let newStatuses = new Set;
 
+  const fillSelect = (selectSelector, dataSet) => {
+    const select = document.getElementById(selectSelector);
+    let option = document.createElement("option");
+    option.value = 'no';
+    option.innerHTML = 'Выберите фильм';
+    select.appendChild(option);
+    option = document.createElement("option");
+    option.value = 'all';
+    option.innerHTML = '-Выбрaть все-';
+    select.appendChild(option);
+    dataSet.forEach((value) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.innerHTML = value;
+      select.appendChild(option);
+    });
+  }
+
+  let newStatuses = new Set;
   const newMovies = new Set([...movies].sort());
   statuses.forEach((item) => newStatuses.add(getRusStatus(item)));
   newStatuses = new Set([...newStatuses].sort());
 
-  selectMovie = document.getElementById('select-movie');
-  let option = document.createElement("option");
-  option.value = 'no';
-  option.innerHTML = 'Выберите фильм';
-  selectMovie.appendChild(option);
-  option = document.createElement("option");
-  option.value = 'all';
-  option.innerHTML = '-Выбрaть все-';
-  selectMovie.appendChild(option);
-  newMovies.forEach((value, key) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.innerHTML = value;
-    selectMovie.appendChild(option);
-  });
+  fillSelect('select-movie', newMovies);
 
-  selectStatus = document.getElementById('select-status');
-  option = document.createElement("option");
-  option.value = 'no';
-  option.innerHTML = 'Выберите статус';
-  selectStatus.appendChild(option);
-  option = document.createElement("option");
-  option.value = 'all';
-  option.innerHTML = '-Выбрaть все-';
-  selectStatus.appendChild(option);
-
-  newStatuses.forEach((value, key) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.innerHTML = value;
-    selectStatus.appendChild(option);
-  });
+  fillSelect('select-status', newStatuses);
 }
 
 
 getReadyJson(data => {
-  const newHeroes = data.map(item => protection(['photo', 'name', 'realName', 'movies', 'status'], item)); 
+  const newHeroes = data.map(item => protection(['photo', 'name', 'realName', 'movies', 'status'], item));
   renderCard(newHeroes);
   let filterHeroes, filterStatuses;
-
   selectMovie.addEventListener('change', () => {
     selectMovie = document.getElementById('select-movie');
     if (selectMovie.options[selectMovie.selectedIndex].value !== 'all') {
@@ -146,7 +133,6 @@ getReadyJson(data => {
       filterHeroes = f.filter((item) => item.movies.includes(selectMovie.options[selectMovie.selectedIndex].value));
       renderCard(filterHeroes);
     } else renderCard(newHeroes);
-
 
   })
 
@@ -160,6 +146,5 @@ getReadyJson(data => {
     } else
       renderCard(newHeroes);
   })
-
 
 })
