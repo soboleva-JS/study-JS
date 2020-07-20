@@ -4,8 +4,6 @@ const countryLocs = {
     'Deutschland': 'DE',
     'United Kingdom': 'EN'
 };
-
-
 const resourses = {
     RU: 'http://localhost:5000/RU',
     EN: 'http://localhost:5000/EN',
@@ -16,12 +14,16 @@ const animate = () => {
         document.body.classList.add('loaded');
         document.body.classList.remove('loaded_hiding');
     }, 500);
-
 }
 
 const dataShow = (data) => {
     const init = () => {
         reset();
+        const listSelect = document.querySelector('.dropdown-lists__list--select');        
+        const listSelectDropDown = listSelect.querySelector('.dropdown-lists__col');
+        listSelectDropDown.innerHTML = '';
+        listSelect.style.display = 'none';
+
         const listDefault = document.querySelector('.dropdown-lists__list--default');
 
         listDefault.style.display = 'block';
@@ -38,8 +40,6 @@ const dataShow = (data) => {
                 <div class="dropdown-lists__country">${item['country']}</div>
                 <div class="dropdown-lists__count">${item['count']}</div>
                 </div>`;
-
-
 
             for (let k in countryLocs) {
                 if ((k === item['country']) && (countryLocs[k] === loc))  flag = true;
@@ -72,8 +72,6 @@ const dataShow = (data) => {
                 }
             }
             flag = false;
-
-
         })
     };
 
@@ -126,6 +124,11 @@ const dataShow = (data) => {
 
         const listDefault = document.querySelector('.dropdown-lists__list--default');
         listDefault.style.display = 'none';
+
+        const listSelect = document.querySelector('.dropdown-lists__list--select');        
+        const listSelectDropDown = listSelect.querySelector('.dropdown-lists__col');
+        listSelectDropDown.innerHTML = '';
+        listSelect.style.display = 'none';
 
         listAutocomplete.style.display = 'block';
 
