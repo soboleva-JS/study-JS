@@ -19,13 +19,8 @@ const animate = () => {
 const dataShow = (data) => {
     const init = () => {
         reset();
-        const listSelect = document.querySelector('.dropdown-lists__list--select');        
-        const listSelectDropDown = listSelect.querySelector('.dropdown-lists__col');
-        listSelectDropDown.innerHTML = '';
-        listSelect.style.display = 'none';
 
         const listDefault = document.querySelector('.dropdown-lists__list--default');
-
         listDefault.style.display = 'block';
 
         const listDefaultDropDown = listDefault.querySelector('.dropdown-lists__col');
@@ -81,6 +76,8 @@ const dataShow = (data) => {
         const listDefault = document.querySelector('.dropdown-lists__list--default');
         const listSelect = document.querySelector('.dropdown-lists__list--select');
         animatedLists(listDefault, listSelect);
+        reset();
+        listSelect.style.display = 'block';
         const listSelectDropDown = listSelect.querySelector('.dropdown-lists__col');
 
         data.forEach((item) => {
@@ -103,33 +100,16 @@ const dataShow = (data) => {
                     listSelectDropDown.append(cityLine);
 
                 })
-                listSelectDropDown.addEventListener('click', () => {
-                    if (event.target.closest('.dropdown-lists__total-line')) {
-                        inputValue(event.target.closest('.dropdown-lists__total-line').childNodes[1].textContent);
-                        listSelectDropDown.innerHTML = '';
-                        animatedLists(listSelect, listDefault);
-                        listDefault.style.display = 'block';
-
-                    }
-                })
             }
         })
 
     };
 
     const autocomplete = () => {
+        reset();
         const listAutocomplete = document.querySelector('.dropdown-lists__list--autocomplete');
         const listAutocompleteCountryBlock = listAutocomplete.querySelector('.dropdown-lists__countryBlock');
-        listAutocompleteCountryBlock.innerHTML = '';
-
-        const listDefault = document.querySelector('.dropdown-lists__list--default');
-        listDefault.style.display = 'none';
-
-        const listSelect = document.querySelector('.dropdown-lists__list--select');        
-        const listSelectDropDown = listSelect.querySelector('.dropdown-lists__col');
-        listSelectDropDown.innerHTML = '';
-        listSelect.style.display = 'none';
-
+        
         listAutocomplete.style.display = 'block';
 
         data.forEach((item) => {
@@ -158,13 +138,8 @@ const dataShow = (data) => {
 
         if (input.value === '') {
             document.querySelector('.button').href = '#';
-            reset();
-            listAutocomplete.style.display = 'none';
-            const listSelect = document.querySelector('.dropdown-lists__list--select');
-            listSelect.style.display = 'none';
-
-            const listDefault = document.querySelector('.dropdown-lists__list--default');
-            listDefault.style.display = 'block';
+            reset();           
+            init();          
         }
     };
 
@@ -185,14 +160,18 @@ const dataShow = (data) => {
         const listDefault = document.querySelector('.dropdown-lists__list--default');
         const listDefaultDropDown = listDefault.querySelector('.dropdown-lists__col');
         listDefaultDropDown.innerHTML = '';
+        listDefault.style.display = 'none';
 
         const listSelect = document.querySelector('.dropdown-lists__list--select');
         const listSelectDropDown = listSelect.querySelector('.dropdown-lists__col');
         listSelectDropDown.innerHTML = '';
+        listSelect.style.display = 'none';
 
         const listAutocomplete = document.querySelector('.dropdown-lists__list--autocomplete');
         const listAutocompleteCountryBlock = listAutocomplete.querySelector('.dropdown-lists__countryBlock');
         listAutocompleteCountryBlock.innerHTML = '';
+        listAutocomplete.style.display = 'none';
+
     };
 
 
@@ -244,7 +223,15 @@ const dataShow = (data) => {
 
         if (event.target.closest('#select-cities')) init();
 
-        if (event.target.closest('.dropdown-lists__list--default') && event.target.closest('.dropdown-lists__col') && event.target.closest('.dropdown-lists__total-line')) select();
+        if (event.target.closest('.dropdown-lists__list--default') && event.target.closest('.dropdown-lists__total-line')) select();
+
+        if (event.target.closest('.dropdown-lists__list--select') && event.target.closest('.dropdown-lists__total-line')) {
+            const listDefault = document.querySelector('.dropdown-lists__list--default');
+            const listSelect = document.querySelector('.dropdown-lists__list--select');
+            animatedLists(listSelect, listDefault);
+            init();
+
+        };
 
         if (event.target.closest('dropdown-lists__country') || event.target.closest('.dropdown-lists__city')) inputValue(event.target.textContent);
 
