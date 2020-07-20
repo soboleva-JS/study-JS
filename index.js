@@ -1,3 +1,16 @@
+let loc;
+const countryLocs = {
+    'Россия': 'RU',
+    'Deutschland': 'DE',
+    'United Kingdom': 'EN'
+};
+
+
+const resourses = {
+    RU: 'http://localhost:5000/RU',
+    EN: 'http://localhost:5000/EN',
+    DE: 'http://localhost:5000/DE'
+}
 const animate = () => {
     window.setTimeout(function () {
         document.body.classList.add('loaded');
@@ -6,19 +19,7 @@ const animate = () => {
 
 }
 
-const getReadyJson = (cb) => {
-    fetch('db_cities.json')
-
-        .then((response) => {
-            if (response.status !== 200) throw new Error('network status not 200')
-            else animate();
-            return response.json()
-        })
-        .then((response) => cb(response))
-        .catch((error) => console.log(error))
-}
-
-getReadyJson(data => {
+const dataShow = (data) => {
     const init = () => {
         reset();
         const listDefault = document.querySelector('.dropdown-lists__list--default');
@@ -27,7 +28,9 @@ getReadyJson(data => {
 
         const listDefaultDropDown = listDefault.querySelector('.dropdown-lists__col');
 
-        data['RU'].forEach((item) => {
+        let flag = false;
+
+        data.forEach((item) => {
             const countryBlock = document.createElement('div');
             countryBlock.classList.add('dropdown-lists__countryBlock');
             countryBlock.innerHTML = `
@@ -35,17 +38,42 @@ getReadyJson(data => {
                 <div class="dropdown-lists__country">${item['country']}</div>
                 <div class="dropdown-lists__count">${item['count']}</div>
                 </div>`;
-            listDefaultDropDown.append(countryBlock);
-            const newCities = item['cities'] = item['cities'].sort((a, b) => b.count - a.count);
 
-            for (let i = 0; i < 3; i++) {
-                const cityLine = document.createElement('div');
-                cityLine.classList.add('dropdown-lists__line');
-                cityLine.innerHTML = `
-                    <div class="dropdown-lists__city dropdown-lists__city--ip">${newCities[i]['name']}</div>
-                    <div class="dropdown-lists__count">${newCities[i]['count']}</div>`;
-                listDefaultDropDown.append(cityLine);
+
+
+            for (let k in countryLocs) {
+                if ((k === item['country']) && (countryLocs[k] === loc))  flag = true;
+
             }
+            if (flag === true) {
+
+                listDefaultDropDown.prepend(countryBlock);
+                const newCities = item['cities'] = item['cities'].sort((a, b) => b.count - a.count);
+
+                for (let i = 0; i < 3; i++) {
+                    const cityLine = document.createElement('div');
+                    cityLine.classList.add('dropdown-lists__line');
+                    cityLine.innerHTML = `
+                <div class="dropdown-lists__city dropdown-lists__city--ip">${newCities[i]['name']}</div>
+                <div class="dropdown-lists__count">${newCities[i]['count']}</div>`;
+                    listDefaultDropDown.childNodes[i].insertAdjacentElement('afterend', cityLine);
+                }
+            } else {
+                listDefaultDropDown.append(countryBlock);
+                const newCities = item['cities'] = item['cities'].sort((a, b) => b.count - a.count);
+
+                for (let i = 0; i < 3; i++) {
+                    const cityLine = document.createElement('div');
+                    cityLine.classList.add('dropdown-lists__line');
+                    cityLine.innerHTML = `
+                <div class="dropdown-lists__city dropdown-lists__city--ip">${newCities[i]['name']}</div>
+                <div class="dropdown-lists__count">${newCities[i]['count']}</div>`;
+                    listDefaultDropDown.append(cityLine);
+                }
+            }
+            flag = false;
+
+
         })
     };
 
@@ -57,7 +85,7 @@ getReadyJson(data => {
         animatedLists(listDefault, listSelect);
         const listSelectDropDown = listSelect.querySelector('.dropdown-lists__col');
 
-        data['RU'].forEach((item) => {
+        data.forEach((item) => {
             if (item['country'] === event.target.closest('.dropdown-lists__total-line').childNodes[1].textContent) {
                 const countryBlock = document.createElement('div');
                 countryBlock.classList.add('dropdown-lists__countryBlock');
@@ -101,7 +129,7 @@ getReadyJson(data => {
 
         listAutocomplete.style.display = 'block';
 
-        data['RU'].forEach((item) => {
+        data.forEach((item) => {
             item['cities'].forEach((city) => {
 
                 if (city['name'].substr(0, input.value.length).toLowerCase() === input.value.toLowerCase()) {
@@ -143,7 +171,7 @@ getReadyJson(data => {
         input.value = value;
         document.querySelector('.button').href = '#';
 
-        data['RU'].forEach((item) => {
+        data.forEach((item) => {
             item['cities'].forEach((city) => {
                 if (city['name'] === value) document.querySelector('.button').href = city['link']
             });
@@ -237,4 +265,47 @@ getReadyJson(data => {
 
         if (event.target.closest('.button')) input.value = '';
     })
-});
+
+    window.onbeforeunload = function () {
+        localStorage.setItem('citiesData', JSON.stringify(data));
+    };
+
+}
+
+const getReadyJson = (url, cb) => {
+    fetch(url)
+        .then((response) => {
+
+            if (response.status !== 200) throw new Error('network status not 200')
+            else animate();
+            return response.json();
+
+        })
+        .then((response) => cb(response))
+        .catch((error) => console.log(error))
+}
+
+const getCookie = (name) => {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+};
+
+
+if (getCookie('inputCities') === 'RU' || getCookie('inputCities') === 'EN' || getCookie('inputCities') === 'DE') loc = getCookie('inputCities')
+else {
+    do loc = prompt('Please enter location: RU, EN or DE').trim().toUpperCase()    
+    while ((loc !== 'RU') && (loc !== 'DE') && (loc !== 'EN'));
+    document.cookie = `inputCities=${loc.toUpperCase()}`;
+    localStorage.setItem('citiesData', JSON.stringify(''));
+}
+
+let data = JSON.parse(localStorage.getItem('citiesData'));
+
+if (!data || data == null)
+    getReadyJson(resourses[loc], data => dataShow(data))
+else {
+    animate();
+    dataShow(data);
+}
